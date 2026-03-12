@@ -17,8 +17,8 @@ export default function AdminDashboard() {
       </Head>
       <div className="page flex">
         <Sidebar
-          userName={me?.name || testUser.name}
-          userRole={me?.jobPosition || testUser.jobPosition}
+          userName={me?.name || testUser?.name || ""}
+          userRole={me?.jobPosition || testUser?.jobPosition || ""}
           activePath="/admin-dashboard"
           isAdmin={true}
           onSignOut={() => (window.location.href = "/oauth2/sign_out")}

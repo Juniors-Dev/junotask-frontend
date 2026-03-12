@@ -16,15 +16,15 @@ export default function Home() {
   return (
     <div className="page flex">
       <Sidebar
-        userName={me?.name || testUser.name}
-        userRole={me?.jobPosition || testUser.jobPosition}
+        userName={me?.name || testUser?.name || ""}
+        userRole={me?.jobPosition || testUser?.jobPosition || ""}
         activePath="/"
         isAdmin={me?.isAdmin}
         onSignOut={() => (window.location.href = "/oauth2/sign_out")}
       />
       <main className="content">
         <WelcomeMessage
-          userName={me?.name || testUser.name}
+          userName={me?.name || testUser?.name || ""}
           className="welcome"
         />
         <StatsSection />
