@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Icon from "@/components/Ui/Icon/Icon";
 import UserProfile from "./UserProfile";
 
@@ -24,14 +25,14 @@ export default function Sidebar({
         <span className="font-bold text-xl tracking-tight">JunoTask</span>
       </div>
       <nav className="sidebar-nav">
-        <a
+        <Link
           href="/"
           className={activePath === "/" ? "nav-link-active" : "nav-link"}
         >
           <Icon name="LayoutDashboard" size={20} />
           <span>Dashboard</span>
-        </a>
-        <a
+        </Link>
+        <Link
           href="/projects"
           className={
             activePath === "/projects" ? "nav-link-active" : "nav-link"
@@ -39,9 +40,9 @@ export default function Sidebar({
         >
           <Icon name="Folder" size={20} />
           <span>Projects</span>
-        </a>
+        </Link>
         {isAdmin && (
-          <a
+          <Link
             href="/admin-dashboard"
             className={
               activePath === "/admin-dashboard" ? "nav-link-active" : "nav-link"
@@ -49,7 +50,7 @@ export default function Sidebar({
           >
             <Icon name="ShieldCheck" size={20} />
             <span>Admin</span>
-          </a>
+          </Link>
         )}
       </nav>
       <div className="sidebar-footer">
