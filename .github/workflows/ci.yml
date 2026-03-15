@@ -1,0 +1,53 @@
+# This workflow runs on every PR to dev and main
+# It checks that the code builds successfully (which includes linting + type checking)
+name: CI
+
+# When does this run?
+on:
+  pull_request:          # On every PR
+    branches: [dev, main]
+  push:
+    branches: [dev]      # Also on direct pushes to dev
+
+# If you push again while CI is running, cancel the old run
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest  # GitHub provides a free Linux VM
+
+    steps:
+      # Step 1: Download the code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js with pnpm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'    # Use latest LTS version (matches Dockerfile)
+
+      # Step 3: Install pnpm (matches the version in package.json)
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      # Step 4: Cache dependencies so future runs are faster
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-
+
+      # Step 5: Install dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Step 6: Build the app (this also runs ESLint + TypeScript checks)
+      - name: Build
+        run: pnpm build
