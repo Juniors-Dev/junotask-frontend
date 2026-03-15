@@ -30,11 +30,9 @@ jobs:
         with:
           node-version: 'lts/*'    # Use latest LTS version (matches Dockerfile)
 
-      # Step 3: Install pnpm (matches the version in package.json)
+      # Step 3: Install pnpm (version is read from packageManager in package.json)
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       # Step 4: Cache dependencies so future runs are faster
       - name: Cache pnpm store
